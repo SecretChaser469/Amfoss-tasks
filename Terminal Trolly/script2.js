@@ -1,4 +1,4 @@
-// script.js
+/*JavaScript for Command Handling*/
 
 const terminal = document.getElementById('terminal');
 const commandInput = document.getElementById('commandInput');
