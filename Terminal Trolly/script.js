@@ -1,3 +1,5 @@
+/*Using JavaScript to fetch data from the API and populate your UI.*/
+
 const API_URL = 'https://fakestoreapi.com';
 
 async function fetchProducts() {
