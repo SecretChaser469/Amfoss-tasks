@@ -1,0 +1,164 @@
+All the tasks were both fun and challenging, with a good mix of practical skills and creativity. Here's a quick breakdown about each:
+
+1. *Type Maestro: This task focuses on improving typing speed and accuracy, crucial for efficient coding. You're encouraged to practice on **typing.com* and aim for a speed of *60 WPM* with *95% accuracy* using *touch typing*. It emphasizes consistency over intensity for building muscle memory.
+
+2. *Terminal Chaos: A creative introduction to **Linux command line* and *Git*, using a Warhammer-inspired storyline. You'll explore and solve riddles through terminal commands, which makes learning more interactive.
+
+3. *Hello, World!: A fundamental programming challenge requiring you to implement basic tasks in **10 different programming languages* (Python, Ruby, Elixir, etc.). You'll write a "Hello, World!" program, manipulate files, and generate diamond patterns using inputs.
+
+4. *Gopal and his PagePal: Build a **Telegram bot* using the *Google Books API* to recommend books based on genre. The bot should provide details like the book's title, author, description, and more. It's a practical task with real-world applications.
+
+5. *TerminalTrolly: This is about navigating through a terminal-based interface to solve issues with a virtual hypermarket's backend. It tests your **HTML, CSS, and Javascript* skills in troubleshooting and maintaining an e-commerce platform.
+
+6. *OpenDocs: Focuses on contributing to **open-source documentation*. You'll select a repository and document it thoroughly, including setup, directory structure, and code explanations. It highlights the importance of good documentation in software development.
+
+7. *Pirate's Dilemma: You’ll build a **Python CLI app* to scrape and download subtitles for an mp4 file using libraries like *BS4*. It’s a mix of web scraping and user interaction.
+
+Finally, after completing the tasks, am going to write a *Medium blog post* on my favorite task, that's task 7, discussing my experience and the technical aspects I learned.
+
+### The Pirate's Dilemma: Building a Subtitle Scraper CLI in Python
+
+As a programmer, it’s not often that you get the chance to step into the shoes of a pirate—especially not one that uses Python to scrape the web for treasures in the form of movie subtitles! In this blog post, I’ll share my experience working on *Pirate's Dilemma*, a task where I developed a command-line interface (CLI) app to scrape and download subtitles for movies. The journey was exciting, challenging, and full of learning moments.
+
+### Introduction
+
+Movies and TV shows are often best enjoyed with subtitles, but what happens when you find a great movie file and discover it has no subtitles? That’s the dilemma Captain Jack Sparrow faced in the task I was given. To solve this, I built a *Python CLI app* that scrapes subtitle websites, allowing users to select and download subtitles for their movies. This task not only honed my Python skills but also introduced me to the world of web scraping, file handling, and building user-friendly CLI tools.
+
+### Problem Definition
+
+The task was to create a Python-based CLI app that:
+1. Accepts an *MP4 file* as input.
+2. Scrapes subtitle repositories (like *OpenSubtitles*) for available subtitle files.
+3. Lists the available subtitles.
+4. Lets the user choose a subtitle and downloads it.
+
+With that in mind, I broke the project down into several components: setting up the environment, learning web scraping with *BeautifulSoup, handling HTTP requests with **Requests, and building a user-friendly interface with **Click*.
+
+### Getting Started
+
+Before diving into the code, I had to ensure I had the right environment set up. I installed Python and some essential libraries:
+- *Click*: To build the command-line interface.
+- *BeautifulSoup*: For scraping the subtitle websites.
+- *Requests*: To make HTTP requests for fetching subtitle data.
+
+I did the entire thing in ubuntu.. so below is the ubuntu command:
+pip install click beautifulsoup4 requests
+
+
+Once my environment was ready, it was time to start coding!
+
+### Building the CLI with Click
+
+The first step was creating a basic command-line interface using the *Click* library. Click made it easy to define commands and arguments, allowing users to input the path to the movie file. Here’s the base structure of the app:
+
+Python code:
+import click
+
+@click.command()
+@click.argument('file_path')
+def get_subtitles(file_path):
+    """CLI app to fetch subtitles for a movie"""
+    click.echo(f'Fetching subtitles for {file_path}')
+    # Scrape and display available subtitles here
+
+if __name__ == '__main__':
+    get_subtitles()
+
+
+This was a good starting point, allowing the user to pass the file path of the movie they wanted subtitles for.
+
+### Web Scraping with BeautifulSoup
+
+The next step was to scrape the subtitle websites. I chose *OpenSubtitles.org* as the source. Using *BeautifulSoup*, I fetched the page, parsed the HTML, and extracted the list of subtitles.
+
+Here’s a simplified version of how I did the scraping:
+
+Python Code:
+import requests
+from bs4 import BeautifulSoup
+
+def fetch_subtitles():
+    url = "https://www.opensubtitles.org"
+    response = requests.get(url)
+    soup = BeautifulSoup(response.content, 'html.parser')
+    
+    # Extract subtitles from the HTML
+    subtitles = soup.find_all('a', class_='subtitle')
+    for i, subtitle in enumerate(subtitles):
+        print(f'{i+1}: {subtitle.text}')
+    return subtitles
+
+
+This snippet fetched the subtitles and displayed them in the terminal for the user to choose from.
+
+### Handling User Selection and Downloading
+
+Once the subtitles were displayed, the user could choose one by its index. After selecting, I used *Requests* to download the subtitle file and save it locally.
+
+Python Code:
+choice = int(input("Select a subtitle: ")) - 1
+selected_subtitle = subtitles[choice]['href']
+
+# Download the subtitle
+subtitle_url = f"https://www.opensubtitles.org{selected_subtitle}"
+subtitle_content = requests.get(subtitle_url).content
+
+with open('subtitle.srt', 'wb') as f:
+    f.write(subtitle_content)
+
+
+This part of the app handled both the selection process and the file download, ensuring the user could easily grab the subtitle they needed.
+
+### Challenges and Learning Moments
+
+1. *Web Scraping Limitations*: Web scraping can be unpredictable. Some sites block scraping bots, or they change their HTML structure frequently. This meant I had to constantly test my scraper to ensure it worked correctly. I learned that robust error handling is crucial in web scraping projects.
+   
+2. *Building a Clean CLI: While **Click* made it easy to build a CLI, designing it to be user-friendly was more challenging than I expected. I had to think about how to structure the prompts and handle user input gracefully. I realized that a clean and intuitive user experience is just as important as the core functionality.
+
+3. *HTTP Requests and Responses*: Understanding how to handle HTTP requests, especially when it came to downloading the subtitle files, was another key learning area. Sometimes the request would fail, or the file format wasn’t as expected, so I had to implement retry logic and content validation.
+
+### Experience and Thoughts
+
+This was a fascinating task that taught me a lot about web scraping, file handling, and building interactive command-line tools. I enjoyed the hands-on nature of the project, especially seeing the immediate results of my work as I downloaded actual subtitle files. The Pirate's Dilemma not only gave me practical skills but also sparked an interest in how powerful Python can be for automating tedious tasks.
+
+If I had more time, I would enhance the project by:
+- Adding more robust error handling and retries for failed HTTP requests.
+- Supporting more subtitle websites for broader availability.
+- Implementing a filter to allow users to select subtitles by language.
+
+### Conclusion
+
+Working on the Pirate's Dilemma was an exciting and enriching experience. It combined the fun of a narrative-driven task with valuable real-world programming skills like web scraping and CLI development. Python proved once again to be an excellent tool for quickly building useful applications, and I look forward to refining this project even further. 
+
+If you’re looking to get into web scraping or build practical command-line tools, I highly recommend tackling a project like this. It’s a rewarding way to improve your programming skills while creating something functional and cool!
+
+I now want to end my blog with the 8th task that I got i.e.,Blog Burst... yeah its this task only... It's the second most interesting task I did...
+
+Blogging is like having your own digital campfire where you can share your passions,expertise and stories with a global audience.It is effective tool for networking,gaining credibility, and reaching a wider audience on huge internet.
+
+Thanks for reading! 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
