@@ -46,4 +46,19 @@ Use a text editor to create a new Python file. For example, open nano:
 bash
 Copy code
 nano subtitle_finder.py
-Write the CLI code:
+Write the CLI code
+
+Save and exit:
+
+In nano, press Ctrl + X, then Y to confirm saving, and Enter to exit.
+Step 3: Find IMDb ID and Hash/File Size
+You’ll need to find the IMDb ID of the movie, and optionally the hash and file size, to search for subtitles effectively.
+
+Finding IMDb ID:
+
+You may need an external tool or service to get the IMDb ID from the movie’s filename. This typically involves querying an online database.
+Getting File Size and Hash:
+
+File Size
+
+
