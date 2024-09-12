@@ -59,6 +59,76 @@ Finding IMDb ID:
 You may need an external tool or service to get the IMDb ID from the movie’s filename. This typically involves querying an online database.
 Getting File Size and Hash:
 
-File Size
+File Size:
+python
 
+def get_file_size(file_path):
+    return os.path.getsize(file_path)
+Hash:
+
+python
+
+def get_file_hash(file_path):
+    hash_md5 = hashlib.md5()
+    with open(file_path, "rb") as f:
+        for chunk in iter(lambda: f.read(4096), b""):
+            hash_md5.update(chunk)
+    return hash_md5.hexdigest()
+Step 4: Scrape Subtitles
+To find subtitles online, you’ll need to scrape data from subtitle websites.
+
+Install BeautifulSoup (if not already installed):
+
+pip install beautifulsoup4
+Write the scraping code:
+
+Open your Python script file (subtitle_finder.py) and add the code
+
+Step 5: Download Subtitles
+Once you have the subtitles listed, you’ll need to allow users to download their chosen subtitle.
+
+Write the download code:
+Add this function to your script:
+
+python
+Copy code
+def download_subtitle(subtitle, output_folder):
+    response = requests.get(subtitle['download_link'])
+    output_file = os.path.join(output_folder, f"{subtitle['title']}.srt")
+    with open(output_file, 'wb') as file:
+        file.write(response.content)
+    print(f"Downloaded: {output_file}")
+Step 6: Batch Mode
+For batch processing multiple files, you need to handle a directory of videos.
+
+Process Multiple Files:
+Add the following code to handle batch mode:
+
+python
+Copy code
+import glob
+
+def process_directory(directory, language, output, file_size, match_by_hash):
+    for file in glob.glob(os.path.join(directory, '*.mp4')):
+        process_file(file, language, output, file_size, match_by_hash)
+Step 7: User Interface and Validation
+Clean User Interface:
+
+Make sure your CLI displays clear messages, such as “Processing file…” or “Downloading subtitles…”.
+Validation:
+
+Test your tool with various MP4 files to ensure it works correctly. Check that subtitle extraction, downloading, and batch processing function as expected.
+Running Your CLI Tool
+Run Your Script:
+
+To run the CLI tool, use the terminal and execute:
+bash
+Copy code
+python subtitle_finder.py your_video.mp4 --language eng --output ./subtitles
+For Batch Mode:
+
+Use:
+bash
+Copy code
+python subtitle_finder.py --batch-download /path/to/your/videos --language eng --output ./subtitles
 
