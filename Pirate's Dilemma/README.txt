@@ -91,7 +91,7 @@ Write the download code:
 Add this function to your script:
 
 python
-Copy code
+
 def download_subtitle(subtitle, output_folder):
     response = requests.get(subtitle['download_link'])
     output_file = os.path.join(output_folder, f"{subtitle['title']}.srt")
@@ -105,7 +105,6 @@ Process Multiple Files:
 Add the following code to handle batch mode:
 
 python
-Copy code
 import glob
 
 def process_directory(directory, language, output, file_size, match_by_hash):
@@ -122,13 +121,125 @@ Running Your CLI Tool
 Run Your Script:
 
 To run the CLI tool, use the terminal and execute:
-bash
-Copy code
+
 python subtitle_finder.py your_video.mp4 --language eng --output ./subtitles
 For Batch Mode:
 
 Use:
-bash
-Copy code
+
 python subtitle_finder.py --batch-download /path/to/your/videos --language eng --output ./subtitles
 
+Here’s an explanation of the functions and libraries used in the Python CLI app for managing subtitles:
+
+Libraries Used
+click:
+
+Purpose: Click is a library for creating command-line interfaces. It simplifies the process of handling command-line arguments and options.
+Key Features: Allows you to define command-line commands, arguments, and options in a clean and easy-to-use manner.
+subliminal:
+
+Purpose: Subliminal is a library for downloading subtitles from various sources.
+Key Features: Handles automatic subtitle downloading and supports multiple languages and subtitle providers.
+babelfish:
+
+Purpose: Babelfish is a library for managing subtitle languages and translations.
+Key Features: Provides utilities for working with subtitle languages, useful for filtering subtitles by language.
+requests:
+
+Purpose: Requests is a popular HTTP library for making web requests.
+Key Features: Simplifies sending HTTP requests and handling responses, useful for scraping websites and downloading subtitles.
+beautifulsoup4:
+
+Purpose: BeautifulSoup is used for web scraping and parsing HTML or XML documents.
+Key Features: Extracts data from web pages by parsing HTML or XML, useful for scraping subtitle information.
+moviepy:
+
+Purpose: MoviePy is used for video editing and processing.
+Key Features: Extracts metadata from video files, including subtitles, and handles video files in general.
+Functions and Their Explanations
+get_file_size(file_path):
+
+Purpose: Returns the size of the file in bytes.
+How It Works: Uses os.path.getsize(file_path) to get the file size.
+Example:
+python
+
+import os
+def get_file_size(file_path):
+    return os.path.getsize(file_path)
+get_file_hash(file_path):
+
+Purpose: Computes the MD5 hash of a file.
+How It Works: Reads the file in chunks and updates the hash object to compute the hash.
+Example:
+python
+
+import hashlib
+
+def get_file_hash(file_path):
+    hash_md5 = hashlib.md5()
+    with open(file_path, "rb") as f:
+        for chunk in iter(lambda: f.read(4096), b""):
+            hash_md5.update(chunk)
+    return hash_md5.hexdigest()
+scrape_subtitles(imdb_id=None, file_hash=None, file_size=None):
+
+Purpose: Scrapes subtitle information from a subtitle website.
+How It Works: Sends a request to the website, parses the HTML response using BeautifulSoup, and extracts subtitle details.
+Example:
+python
+
+from bs4 import BeautifulSoup
+import requests
+
+def scrape_subtitles(imdb_id=None, file_hash=None, file_size=None):
+    url = "https://www.opensubtitles.org/en/search/sublanguageid-eng"
+    response = requests.get(url)
+    soup = BeautifulSoup(response.text, 'html.parser')
+    
+    subtitles = []
+    for result in soup.find_all('div', class_='result'):
+        subtitle = {
+            'title': result.find('a', class_='title').text,
+            'download_link': result.find('a', class_='download').get('href'),
+            'downloads': int(result.find('span', class_='downloads').text)
+        }
+        subtitles.append(subtitle)
+    
+    subtitles.sort(key=lambda x: x['downloads'], reverse=True)
+    return subtitles
+download_subtitle(subtitle, output_folder):
+
+Purpose: Downloads a chosen subtitle and saves it to the specified output folder.
+How It Works: Sends a request to the subtitle’s download link and saves the content to a file.
+Example:
+python
+
+def download_subtitle(subtitle, output_folder):
+    response = requests.get(subtitle['download_link'])
+    output_file = os.path.join(output_folder, f"{subtitle['title']}.srt")
+    with open(output_file, 'wb') as file:
+        file.write(response.content)
+    print(f"Downloaded: {output_file}")
+process_file(file, language, output, file_size, match_by_hash):
+
+Purpose: Processes a single movie file to extract or download subtitles based on the provided options.
+How It Works: Implements the logic for handling one video file, including finding subtitles and allowing the user to choose and download them.
+Example:
+python
+
+def process_file(file, language, output, file_size, match_by_hash):
+    # Implementation for processing a single file
+    pass
+process_directory(directory, language, output, file_size, match_by_hash):
+
+Purpose: Processes all movie files in a specified directory.
+How It Works: Iterates through all files in the directory and processes each one individually.
+Example:
+python
+
+import glob
+
+def process_directory(directory, language, output, file_size, match_by_hash):
+    for file in glob.glob(os.path.join(directory, '*.mp4')):
+        process_file(file, language, output, file_size, match_by_hash)
