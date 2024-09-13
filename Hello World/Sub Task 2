@@ -1,0 +1,152 @@
+Python
+
+# Read from input.txt and write to output.txt
+with open('input.txt', 'r') as infile:
+    data = infile.read()
+
+with open('output.txt', 'w') as outfile:
+    outfile.write(data)
+Ruby
+
+# Read from input.txt and write to output.txt
+data = File.read('input.txt')
+File.write('output.txt', data)
+Elixir
+
+# Read from input.txt and write to output.txt
+input_file = "input.txt"
+output_file = "output.txt"
+
+{:ok, data} = File.read(input_file)
+File.write(output_file, data)
+JavaScript (Node.js)
+
+const fs = require('fs');
+
+// Read from input.txt and write to output.txt
+fs.readFile('input.txt', 'utf8', (err, data) => {
+    if (err) throw err;
+    fs.writeFile('output.txt', data, (err) => {
+        if (err) throw err;
+        console.log('Data written to output.txt');
+    });
+});
+Java
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
+public class FileCopy {
+    public static void main(String[] args) {
+        try {
+            String data = new String(Files.readAllBytes(Paths.get("input.txt")));
+            Files.write(Paths.get("output.txt"), data.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+Go
+
+package main
+
+import (
+    "io/ioutil"
+    "log"
+    "os"
+)
+
+func main() {
+    // Read from input.txt
+    data, err := ioutil.ReadFile("input.txt")
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    // Write to output.txt
+    err = ioutil.WriteFile("output.txt", data, os.ModePerm)
+    if err != nil {
+        log.Fatal(err)
+    }
+}
+C
+
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+    FILE *infile = fopen("input.txt", "r");
+    if (infile == NULL) {
+        perror("Error opening input file");
+        return EXIT_FAILURE;
+    }
+
+    FILE *outfile = fopen("output.txt", "w");
+    if (outfile == NULL) {
+        perror("Error opening output file");
+        fclose(infile);
+        return EXIT_FAILURE;
+    }
+
+    char ch;
+    while ((ch = fgetc(infile)) != EOF) {
+        fputc(ch, outfile);
+    }
+
+    fclose(infile);
+    fclose(outfile);
+    return EXIT_SUCCESS;
+}
+C++
+
+#include <fstream>
+#include <iostream>
+#include <sstream>
+
+int main() {
+    std::ifstream infile("input.txt");
+    if (!infile) {
+        std::cerr << "Error opening input file" << std::endl;
+        return 1;
+    }
+
+    std::ostringstream sstream;
+    sstream << infile.rdbuf();
+    std::string data = sstream.str();
+
+    std::ofstream outfile("output.txt");
+    if (!outfile) {
+        std::cerr << "Error opening output file" << std::endl;
+        return 1;
+    }
+
+    outfile << data;
+    return 0;
+}
+Rust
+
+use std::fs;
+use std::io::Error;
+
+fn main() -> Result<(), Error> {
+    // Read from input.txt
+    let data = fs::read_to_string("input.txt")?;
+
+    // Write to output.txt
+    fs::write("output.txt", data)?;
+
+    Ok(())
+}
+Haskell
+
+import System.IO
+
+main :: IO ()
+main = do
+    -- Read from input.txt
+    inputData <- readFile "input.txt"
+    
+    -- Write to output.txt
+    writeFile "output.txt" inputData
+
