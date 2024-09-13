@@ -1,0 +1,266 @@
+Python
+
+def generate_diamond(n):
+    lines = []
+    for i in range(n):
+        lines.append(' ' * (n - i - 1) + '*' * (2 * i + 1))
+    for i in range(n - 2, -1, -1):
+        lines.append(' ' * (n - i - 1) + '*' * (2 * i + 1))
+    return '\n'.join(lines)
+
+def main():
+    with open('input.txt', 'r') as infile:
+        n = int(infile.read().strip())
+    
+    diamond_pattern = generate_diamond(n)
+    
+    with open('output.txt', 'w') as outfile:
+        outfile.write(diamond_pattern)
+
+if __name__ == "__main__":
+    main()
+Ruby
+
+def generate_diamond(n)
+  lines = []
+  (0...n).each do |i|
+    lines << ' ' * (n - i - 1) + '*' * (2 * i + 1)
+  end
+  (n - 2).downto(0) do |i|
+    lines << ' ' * (n - i - 1) + '*' * (2 * i + 1)
+  end
+  lines.join("\n")
+end
+
+n = File.read('input.txt').to_i
+diamond_pattern = generate_diamond(n)
+File.write('output.txt', diamond_pattern)
+Elixir
+
+defmodule Diamond do
+  def generate_diamond(n) do
+    upper = Enum.map(0..(n-1), fn i ->
+      String.duplicate(" ", n - i - 1) <> String.duplicate("*", 2 * i + 1)
+    end)
+
+    lower = Enum.map((n - 2)..0, fn i ->
+      String.duplicate(" ", n - i - 1) <> String.duplicate("*", 2 * i + 1)
+    end)
+
+    Enum.concat(upper, lower) |> Enum.join("\n")
+  end
+
+  def main do
+    {:ok, n} = File.read("input.txt")
+    n = String.trim(n) |> String.to_integer()
+    diamond_pattern = generate_diamond(n)
+    File.write!("output.txt", diamond_pattern)
+  end
+end
+
+Diamond.main()
+JavaScript (Node.js)
+
+const fs = require('fs');
+
+function generateDiamond(n) {
+    let lines = [];
+    for (let i = 0; i < n; i++) {
+        lines.push(' '.repeat(n - i - 1) + '*'.repeat(2 * i + 1));
+    }
+    for (let i = n - 2; i >= 0; i--) {
+        lines.push(' '.repeat(n - i - 1) + '*'.repeat(2 * i + 1));
+    }
+    return lines.join('\n');
+}
+
+fs.readFile('input.txt', 'utf8', (err, data) => {
+    if (err) throw err;
+    const n = parseInt(data.trim(), 10);
+    const diamondPattern = generateDiamond(n);
+    fs.writeFile('output.txt', diamondPattern, (err) => {
+        if (err) throw err;
+        console.log('Diamond pattern saved to output.txt');
+    });
+});
+Java
+  
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
+public class DiamondPattern {
+    public static String generateDiamond(int n) {
+        StringBuilder diamond = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            diamond.append(" ".repeat(n - i - 1))
+                   .append("*".repeat(2 * i + 1))
+                   .append("\n");
+        }
+        for (int i = n - 2; i >= 0; i--) {
+            diamond.append(" ".repeat(n - i - 1))
+                   .append("*".repeat(2 * i + 1))
+                   .append("\n");
+        }
+        return diamond.toString();
+    }
+
+    public static void main(String[] args) {
+        try {
+            String input = new String(Files.readAllBytes(Paths.get("input.txt")));
+            int n = Integer.parseInt(input.trim());
+            String diamondPattern = generateDiamond(n);
+            Files.write(Paths.get("output.txt"), diamondPattern.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+Go
+
+package main
+
+import (
+    "fmt"
+    "io/ioutil"
+    "strings"
+)
+
+func generateDiamond(n int) string {
+    var lines []string
+    for i := 0; i < n; i++ {
+        lines = append(lines, strings.Repeat(" ", n-i-1)+strings.Repeat("*", 2*i+1))
+    }
+    for i := n - 2; i >= 0; i-- {
+        lines = append(lines, strings.Repeat(" ", n-i-1)+strings.Repeat("*", 2*i+1))
+    }
+    return strings.Join(lines, "\n")
+}
+
+func main() {
+    data, err := ioutil.ReadFile("input.txt")
+    if err != nil {
+        panic(err)
+    }
+    var n int
+    fmt.Sscanf(string(data), "%d", &n)
+    diamondPattern := generateDiamond(n)
+    err = ioutil.WriteFile("output.txt", []byte(diamondPattern), 0644)
+    if err != nil {
+        panic(err)
+    }
+}
+C
+
+#include <stdio.h>
+#include <stdlib.h>
+
+void generate_diamond(int n, FILE *outfile) {
+    for (int i = 0; i < n; i++) {
+        fprintf(outfile, "%*s%s\n", n - i - 1, "", "*****");
+    }
+    for (int i = n - 2; i >= 0; i--) {
+        fprintf(outfile, "%*s%s\n", n - i - 1, "", "*****");
+    }
+}
+
+int main() {
+    FILE *infile = fopen("input.txt", "r");
+    if (infile == NULL) {
+        perror("Error opening input file");
+        return EXIT_FAILURE;
+    }
+
+    FILE *outfile = fopen("output.txt", "w");
+    if (outfile == NULL) {
+        perror("Error opening output file");
+        fclose(infile);
+        return EXIT_FAILURE;
+    }
+
+    int n;
+    fscanf(infile, "%d", &n);
+    generate_diamond(n, outfile);
+
+    fclose(infile);
+    fclose(outfile);
+    return EXIT_SUCCESS;
+}
+C++
+
+#include <iostream>
+#include <fstream>
+#include <string>
+
+std::string generateDiamond(int n) {
+    std::string diamond;
+    for (int i = 0; i < n; i++) {
+        diamond += std::string(n - i - 1, ' ') + std::string(2 * i + 1, '*') + "\n";
+    }
+    for (int i = n - 2; i >= 0; i--) {
+        diamond += std::string(n - i - 1, ' ') + std::string(2 * i + 1, '*') + "\n";
+    }
+    return diamond;
+}
+
+int main() {
+    std::ifstream infile("input.txt");
+    if (!infile) {
+        std::cerr << "Error opening input file" << std::endl;
+        return 1;
+    }
+
+    int n;
+    infile >> n;
+    infile.close();
+
+    std::string diamondPattern = generateDiamond(n);
+
+    std::ofstream outfile("output.txt");
+    if (!outfile) {
+        std::cerr << "Error opening output file" << std::endl;
+        return 1;
+    }
+
+    outfile << diamondPattern;
+    outfile.close();
+    return 0;
+}
+Rust
+
+use std::fs;
+use std::io::{self, Read};
+
+fn generate_diamond(n: usize) -> String {
+    let mut diamond = String::new();
+    for i in 0..n {
+        diamond.push_str(&" ".repeat(n - i - 1));
+        diamond.push_str(&"*".repeat(2 * i + 1));
+        diamond.push('\n');
+    }
+    for i in (0..n-1).rev() {
+        diamond.push_str(&" ".repeat(n - i - 1));
+        diamond.push_str(&"*".repeat(2 * i + 1));
+        diamond.push('\n');
+    }
+    diamond
+}
+
+fn main() -> io::Result<()> {
+    let mut input = String::new();
+    fs::File::open("input.txt")?.read_to_string(&mut input)?;
+    let n: usize = input.trim().parse().expect("Invalid number");
+
+    let diamond_pattern = generate_diamond(n);
+    fs::write("output.txt", diamond_pattern)?;
+
+    Ok(())
+}
+Haskell
+
+import System.IO
+
+generateDiamond :: Int -> String
+generateDiamond n =
+    let upper = [replicate (n - i - 1) ' ' ++ replicate (2 * i + 1) '*' | i <- [0..(n-1)]]
+        lower = [replicate (n - i - 1) ' ' ++ replicate (2 * i + 1) '*' | i <- reverse [0..(n-
