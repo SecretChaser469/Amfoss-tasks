@@ -1,0 +1,116 @@
+Part 1: Entering Arrakis-Dex and Finding Safety
+Clone the Repository
+Use the following command to clone the given repository:
+
+git clone <repository-url>
+cd Terminal-Chaos/Arrakis-dex
+Replace <repository-url> with the actual URL provided to you.
+
+Check Surroundings
+Use the ls command to list the contents of the directory and get an idea of your surroundings:
+
+ls
+Escape the Vortex of Desolation
+To escape the vortex, use cd to navigate to a directory with a safe environment. For instance, if you spot "Eolian Caves" using ls, navigate there:
+
+cd Eolian-Caves/
+Light Up the Cave
+The ls command may not be enough, so use a "more powerful" version, like ls -la, to list hidden files and directories:
+
+ls -la
+Find and Read the Parchment
+Use the find or tree command to search for a hidden item like a parchment:
+
+find . -name '*parchment*'
+Once you find it, use cat to read the contents:
+
+cat parchment.txt
+Store the Code in the Handbook
+Create a Handbook directory using the mkdir command:
+
+mkdir ~/Handbook
+Use a text editor like nano to create a file for the code you find:
+
+nano ~/Handbook/part1_code.txt
+Save the code, then exit nano (Ctrl + X).
+
+Push the Changes to GitHub
+After every part, you need to push your progress. First, stage and commit the changes, then push them to your repo:
+
+git add Handbook/part1_code.txt
+git commit -m "Added Part 1 code"
+git push origin main
+Part 2: Exploring the Light Realm
+Switch Branches
+Use the git checkout command to switch to the branch of the light realm:
+
+git checkout light-realm
+Explore and Find Collectibles
+Use ls and cd to explore directories, but be cautious of any potential enemies. Use cat to read any text files you find.
+
+Brew a Holy Spell
+To find herbs that contain "holy" and "good" in their content, use the grep command:
+
+grep -rl 'holy' | xargs grep -l 'good'
+Collect the herb names and follow the task’s instructions to:
+
+Ensure the herb with "oo" comes first.
+Replace each letter with the previous one in the alphabet (can use a script or manual substitution).
+Remove all vowels to form the final spell.
+Save this spell in your Handbook directory using nano.
+
+Push the Changes
+Commit the newly found spell and push it:
+
+git add Handbook/holy_spell.txt
+git commit -m "Brewed the holy spell"
+git push origin main
+Part 3: Exploring the Dark Realm
+Switch to the Dark Realm
+As before, use the git checkout command to move to the Dark Realm branch:
+
+git checkout dark-realm
+Unlock Chests with the Celestial Veil Amulet
+Find the chests in the Dark Realm I and II using ls and cd. Use the amulet (probably found in Part 2) to unlock the chests by using the cat command on the files inside them.
+
+Store the Code from Each Chest
+After unlocking the chests, store the codes in your Handbook directory:
+
+nano ~/Handbook/dark_realm_code_1.txt
+nano ~/Handbook/dark_realm_code_2.txt
+Push the Changes
+Once you’ve gathered all the codes from the Dark Realm, commit and push:
+
+git add Handbook/dark_realm_code_1.txt Handbook/dark_realm_code_2.txt
+git commit -m "Collected Dark Realm codes"
+git push origin main
+Part 4: Uniting the Scriptures
+Gather and Combine the Four Codes
+Now that you have four codes from Parts 1, 2, and 3, combine them to form a single code. This could be as simple as concatenating the contents of all files:
+
+cat Handbook/part1_code.txt Handbook/holy_spell.txt Handbook/dark_realm_code_1.txt Handbook/dark_realm_code_2.txt
+Decode the Combined Code
+You might need to decode the combined string using a specific cipher (for example, Caesar cipher). You can use online tools or write a small script to decode it.
+
+Find the GodSuite Repo
+After decoding, the combined code should give you a link to the GodSuite repository. Clone it:
+
+git clone <GodSuite-repo-url>
+Part 5: The GodSuite
+Analyze Commits
+Use git log to look at each commit in the GodSuite branch. Review the changes made in each commit by using:
+
+git log
+git show <commit-hash>
+Find the Secret Code
+Search through the commits for a secret code that can be decoded. Once you find it, you can either attempt to decode it yourself or use the coordinates hidden in the commits to find a tool (likely a web-based decoder).
+
+Push Final Writeup
+Once you’ve finished everything, write a detailed explanation of each part using a text editor like nano:
+
+nano final_writeup.txt
+Explain how you solved each part and then push this writeup:
+
+git add final_writeup.txt
+git commit -m "Final writeup"
+git push origin main
