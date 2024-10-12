@@ -6,7 +6,7 @@ import csv
 from docx import Document
 
 # Bot Token (get it from BotFather on Telegram)
-TOKEN = 'YOUR_TELEGRAM_BOT_TOKEN'
+TOKEN = '7529789919:AAH-tMtiRQGOAVlegVE03cWYiEJoct2XlW0'
 
 # Global reading list storage
 reading_list = []
